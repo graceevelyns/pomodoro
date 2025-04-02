@@ -12,6 +12,7 @@ export default function Timer() {
   const [mode, setMode] = useState<'focus' | 'break' | 'rest'>('focus');
   const [timeLeft, setTimeLeft] = useState(TIMER_TYPES[mode]);
   const [isRunning, setIsRunning] = useState(false);
+  const [position, setPosition] = useState({ x: 900, y: 90 }); // default spot
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -38,8 +39,38 @@ export default function Timer() {
     return `${m}:${s}`;
   };
 
+  // Drag logic
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const { x, y } = position;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      setPosition({ x: x + dx, y: y + dy });
+    };
+
+    const handleMouseUp = () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
   return (
-    <div className="bg-gray-800 rounded-xl p-6 shadow-md w-full max-w-md">
+    <div
+      onMouseDown={handleMouseDown}
+      style={{
+        position: 'absolute',
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        cursor: 'grab',
+      }}
+      className="bg-gray-800 rounded-xl p-6 shadow-md w-full max-w-md select-none"
+    >
       {/* Tabs */}
       <div className="flex justify-around mb-4 text-white">
         {(['focus', 'break', 'rest'] as const).map((m) => (
@@ -56,7 +87,9 @@ export default function Timer() {
       </div>
 
       {/* Timer display */}
-      <div className="text-5xl font-mono text-center mb-4">{formatTime(timeLeft)}</div>
+      <div className="text-5xl font-mono text-center mb-4">
+        {formatTime(timeLeft)}
+      </div>
 
       {/* Controls */}
       <div className="flex justify-center items-center gap-4">
@@ -75,7 +108,6 @@ export default function Timer() {
         >
           🔄
         </button>
-        <button className="text-white hover:text-gray-300">⚙️</button>
       </div>
     </div>
   );

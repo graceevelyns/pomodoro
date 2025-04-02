@@ -1,3 +1,5 @@
+'use client';
+
 import Timer from './components/Timer';
 
 export default function Home() {
@@ -6,17 +8,15 @@ export default function Home() {
       {/* Background */}
       <div className="absolute inset-0 -z-10">
         <img
-          src="img/bg1.png" // can be changed later
+          src="/img/bg1.png"
           alt="Study Background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40" /> {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       {/* Timer Card */}
-      <div className="flex justify-center items-center h-screen px-4">
-        <Timer />
-      </div>
+      <Timer />
     </main>
   );
 }
