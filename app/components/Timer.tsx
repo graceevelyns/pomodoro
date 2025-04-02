@@ -12,7 +12,7 @@ export default function Timer() {
   const [mode, setMode] = useState<'focus' | 'break' | 'rest'>('focus');
   const [timeLeft, setTimeLeft] = useState(TIMER_TYPES[mode]);
   const [isRunning, setIsRunning] = useState(false);
-  const [position, setPosition] = useState({ x: 900, y: 90 }); // default spot
+  const [position, setPosition] = useState({ x: 900, y: 90 });
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -39,7 +39,6 @@ export default function Timer() {
     return `${m}:${s}`;
   };
 
-  // Drag logic
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const startX = e.clientX;
     const startY = e.clientY;
@@ -69,16 +68,18 @@ export default function Timer() {
         top: `${position.y}px`,
         cursor: 'grab',
       }}
-      className="bg-gray-800 rounded-xl p-6 shadow-md w-full max-w-md select-none"
+      className="bg-zinc-900 text-white rounded-xl p-6 shadow-xl w-full max-w-md select-none"
     >
       {/* Tabs */}
-      <div className="flex justify-around mb-4 text-white">
+      <div className="flex justify-around mb-4">
         {(['focus', 'break', 'rest'] as const).map((m) => (
           <button
             key={m}
             onClick={() => setMode(m)}
-            className={`px-4 py-2 rounded-t-md ${
-              mode === m ? 'bg-gray-900 font-bold' : 'bg-gray-700'
+            className={`px-4 py-2 rounded-md transition ${
+              mode === m
+                ? 'bg-zinc-800 font-semibold'
+                : 'bg-zinc-700 hover:bg-zinc-600'
             }`}
           >
             {m.charAt(0).toUpperCase() + m.slice(1)}
@@ -87,7 +88,7 @@ export default function Timer() {
       </div>
 
       {/* Timer display */}
-      <div className="text-5xl font-mono text-center mb-4">
+      <div className="text-6xl font-mono text-center mb-6 tracking-wider">
         {formatTime(timeLeft)}
       </div>
 
@@ -95,7 +96,7 @@ export default function Timer() {
       <div className="flex justify-center items-center gap-4">
         <button
           onClick={() => setIsRunning(!isRunning)}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
         >
           {isRunning ? 'Pause' : 'Start'}
         </button>
@@ -104,7 +105,7 @@ export default function Timer() {
             setIsRunning(false);
             setTimeLeft(TIMER_TYPES[mode]);
           }}
-          className="text-white hover:text-gray-300"
+          className="text-white hover:text-gray-300 text-xl"
         >
           🔄
         </button>
