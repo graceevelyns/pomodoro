@@ -1,6 +1,7 @@
 'use client';
 
 import Timer from './components/Timer';
+import ToDoList from './components/ToDoList';
 
 export default function Home() {
   return (
@@ -15,8 +16,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Timer Card */}
+      {/* Draggable Components */}
       <Timer />
+      <ToDoList />
     </main>
   );
 }
