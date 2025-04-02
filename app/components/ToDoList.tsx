@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function ToDoList() {
-  const [position, setPosition] = useState({ x: 900, y: 350 });
+  const [position, setPosition] = useState({ x: 900, y: 550 });
   const [tasks, setTasks] = useState<{ text: string; done: boolean }[]>([]);
   const [input, setInput] = useState('');
 
